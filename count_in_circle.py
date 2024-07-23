@@ -15,7 +15,7 @@ cap.set(cv2.CAP_PROP_FPS, 30)
 
 # Define the circle region
 circle_center = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) // 2, int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) // 2)
-circle_radius = 50  # Radius of the circle
+circle_radius = 100  # Radius of the circle
 circle_color = (0, 0, 255)  # Red color in BGR
 circle_thickness = 2  # Thickness of the circle outline
 
@@ -38,7 +38,7 @@ while True:
     if not ret:
         break
     # Detect and track objects
-    results = model.track(frame, conf=0.65, iou=0.3, device='cuda', classes=0, persist=True, augment=True, imgsz=320)
+    results = model.track(frame, conf=0.65, iou=0.3, device='cpu', classes=0, persist=True, augment=True, imgsz=320)
 
     # Draw the circle region
     cv2.circle(frame, circle_center, circle_radius, circle_color, circle_thickness)
@@ -73,11 +73,11 @@ while True:
                 cv2.circle(frame, (int(bbox_center[0]), int(bbox_center[1])), 2, (0, 255, 0), -1)
 
     # Calculate and display FPS
-    cv2.rectangle(frame, (0,0),(75,40),(0,0,0),-1)
-    cv2.putText(frame, f'FPS: {str(int(fps_filtered))}', (5, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1, cv2.LINE_AA)
+    cv2.rectangle(frame, (0,0),(150,80),(0,0,0),-1)
+    cv2.putText(frame, f'FPS: {str(int(fps_filtered))}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
     # Display the count on the frame
-    cv2.putText(frame, f'Count: {count_inside_circle}', (5,35),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
+    cv2.putText(frame, f'Count: {count_inside_circle}', (10,70),
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 
     #Resize just for display
     frame = cv2.resize(frame, (640, 640))
